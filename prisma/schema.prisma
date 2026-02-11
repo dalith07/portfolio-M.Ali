@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  BANNED
+}
+
+enum NotificationType {
+  ALERT
+}
+
+enum MessageStatus {
+  SENT
+  DELIVERED
+  SEEN
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String?
+  email         String     @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          UserRole   @default(USER)
+  status        UserStatus @default(ACTIVE)
+
+  isOnline Boolean   @default(false)
+  lastSeen DateTime?
+
+  accounts      Account[]
+  notifications Notification[]
+  profile       Profile?
+
+  receivedMessages Message[] @relation("ReceivedMessages")
+  sentMessages     Message[] @relation("SentMessages")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Profile {
+  id            String   @id @default(cuid())
+  phoneNumber   String?
+  country       String?
+  streetAddress String?
+  city          String?
+  postalCode    String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  title     String
+  message   String
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id         String        @id @default(cuid())
+  content    String
+  read       Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+  status     MessageStatus @default(SENT)
+  senderId   String
+  receiverId String
+  receiver   User          @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  sender     User          @relation("SentMessages", fields: [senderId], references: [id])
+}
