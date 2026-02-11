@@ -36,6 +36,7 @@ export const translations = {
 
     // hero section
     heroName: "Salut, je suis M.Ali",
+    heroDeveloper: "Je suis développeur",
     heroDescription:
       "Un développeur Frontend passionné créant des expériences web modernes et réactives.",
     heroButton1: "Voir les projets",
@@ -61,6 +62,7 @@ export const translations = {
 
     // hero section
     heroName: "مرحباً، أنا محمد علي",
+    heroDeveloper: "أنا مطور ويب",
     heroDescription: "مطور واجهات أمامية شغوف يبتكر تجارب ويب حديثة ومتجاوبة.",
     heroButton1: "مشاهدة المشاريع",
     heroButton2: "تواصل معي",
