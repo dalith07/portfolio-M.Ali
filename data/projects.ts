@@ -11,7 +11,7 @@ export const projects = [
       ar: "تطبيق حديث لكراء السيارات باستخدام Next.js.",
     },
     image: "/projects-cars-for-ren.jpg",
-    link: "https://cars-for-rent-theta.vercel.app/",
+    link: "https://cars-for-rent-two.vercel.app/",
   },
 
   {

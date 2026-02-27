@@ -62,7 +62,7 @@ const ButtonUser = () => {
                             <div className="flex md:flex-row flex-col gap-2 mb-4">
                                 <Button className="relative m-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-primary shadow-md bg-background">
                                     <Image
-                                        src={user.image || "/kira.jpg"}
+                                        src={user.image || ""}
                                         alt="image user"
                                         fill
                                         className="rounded-full object-cover"

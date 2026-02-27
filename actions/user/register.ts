@@ -15,13 +15,19 @@ export async function register(values: z.infer<typeof RegisterSchema>) {
 
   const { email, password, name } = validatedFields.data;
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  // console.log("REGISTER EMAIL:", email);
+
+  // const hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUser = await getUserByEmail(email);
 
+  // console.log("EXISTING USER:", existingUser);
+
   if (existingUser) {
-    return { error: "Email already in user!" };
+    return { error: "Email already in use!" };
   }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   await prisma.user.create({
     data: {
